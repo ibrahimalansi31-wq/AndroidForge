@@ -1,0 +1,42 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      zip_source:
+        description: "Source ZIP location"
+        type: choice
+        required: true
+        default: "input-directory"
+        options:
+          - "input-directory"
+          - "download-url"
+          - "release-asset"
+      zip_path:
+        description: "Path to source ZIP inside input folder"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check source files
+        run: |
+          echo "Checking repository files..."
+          ls -la
+          echo "Checking input directory..."
+          if [ -d input ]; then
+            find input -maxdepth 2 -type f
+          else
+            echo "Input directory does not exist."
+          fi
