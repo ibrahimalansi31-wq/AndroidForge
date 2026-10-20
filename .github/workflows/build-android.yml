@@ -1,1 +1,26 @@
 
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-android.yml'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check repository files
+        run: |
+          echo "AndroidForge repository files:"
+          ls -la
+          echo "Checking input folder:"
+          if [ -d input ]; then
+            find input -maxdepth 2 -type f
+          else
+            echo "No input folder found"
+          fi
